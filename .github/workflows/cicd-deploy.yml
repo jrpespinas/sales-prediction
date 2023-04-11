@@ -7,8 +7,6 @@ on:
 jobs:
   dockerize:
     name: Push image to Docker Hub
-
-    # Depends on the Flake8 Lint job
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -20,7 +18,7 @@ jobs:
         with:
           # list of Docker images to use as base name for tags
           images: |
-            jrpespinas/fastapi-k8s
+            jrpespinas/fastapi-heroku
             
           # generate Docker tags based on the following events/attributes
           tags: |

@@ -12,11 +12,8 @@ RUN pip install -r requirements.txt
 COPY . . 
 
 # Expose container port (locally)
-# Comment out for heroku deployment
+# Comment out for heroku deployment, as it does not need it
 # EXPOSE 8080
 
-# Run the backend in a local environment
-# CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8080"]
-
 # Run the backend in heroku
-CMD ["start.sh"]
+CMD ["./start.sh"]
