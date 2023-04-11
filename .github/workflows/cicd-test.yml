@@ -1,0 +1,50 @@
+name: CI/CD Testing
+
+# Triggers workflow on pull_request to main branch
+on:
+  pull_request:
+    branches: [main]
+
+  # enable a clickable button to run the workflow using the github UI
+  workflow_dispatch:                      
+
+# Jobs to execute 
+jobs:
+  testing:
+    name: Pytest 
+    runs-on: ubuntu-latest
+    steps:
+      # allows the workflow to access your repository
+      - name: checkout repository
+        uses: actions/checkout@v3  
+
+      # setup python version       
+      - name: setup python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10.10'
+
+      # install application dependencies
+      - name: install dependencies
+        run: |
+          pip install -r requirements.txt
+      # test application using pytest
+      - name: test API
+        run: |
+          pytest
+  linting:
+    name: Flake8 Lint
+    needs: testing
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source repository
+        uses: actions/checkout@v3
+
+      - name: setup python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10.10'
+      
+      # run to check for basic code smells
+      - name: flake8 Lint
+        uses: py-actions/flake8@v2

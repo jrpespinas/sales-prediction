@@ -1,0 +1,13 @@
+# Virtual environment
+venv
+.python-version
+__pycache__
+
+# workflows
+.github 
+
+# unit tests
+.pytest_cache
+
+# experiment environment
+experiments/
