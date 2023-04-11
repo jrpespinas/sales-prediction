@@ -1,0 +1,69 @@
+name: CI/CD Deploy
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  dockerize:
+    name: Push image to Docker Hub
+
+    # Depends on the Flake8 Lint job
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          # list of Docker images to use as base name for tags
+          images: |
+            jrpespinas/fastapi-k8s
+            
+          # generate Docker tags based on the following events/attributes
+          tags: |
+            type=sha
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_ACCESS_TOKEN }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+  heroku-deployment:
+    runs-on: ubuntu-latest
+    name: Deploy image to Heroku
+
+    # only run this fater deploying to docker
+    needs: [dockerize]
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v3
+        
+      # more info on deploy to heroku: 
+      # https://github.com/marketplace/actions/deploy-to-heroku
+      - name: deploy to Heroku
+        uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+          heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
+          heroku_email: ${{ secrets.HEROKU_EMAIL }}
+          
+          # build the app docker image using the Dockerfile
+          # and run that image in a container that's pushed to heroku
+          usedocker: true
