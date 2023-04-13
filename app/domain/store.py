@@ -22,12 +22,15 @@ class StoreSchema(BaseModel):
 
     @validator('Date')
     def must_be_in_date_format(cls, v):
-        date = v.split('-')
-        if not datetime(
-            year=int(date[0]), month=int(date[1]), day=int(date[2])
-        ):
+        try:
+            date = v.split('-')
+            if datetime(
+                year=int(date[0]), month=int(date[1]), day=int(date[2])
+            ):
+                return v
+        except:
             raise ValueError(f'must be YYYY-MM-DD')
-        return v
+        
 
 
     @validator('Open')
