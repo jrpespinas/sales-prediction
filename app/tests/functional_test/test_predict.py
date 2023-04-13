@@ -1,6 +1,6 @@
 from fastapi.testclient import TestClient
 
-from app.router.predict import router
+from ...router.predict import router
 
 client = TestClient(router)
 
