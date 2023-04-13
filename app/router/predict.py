@@ -10,6 +10,7 @@ processor = StorePreprocessor()
 loader = ModelLoader()
 model = loader.get_latest_model()
 
+
 @router.post('/predict')
 async def predict(store: StoreSchema) -> dict[str, float]:
     x = await processor.convert(store)

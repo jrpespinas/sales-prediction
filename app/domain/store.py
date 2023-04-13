@@ -13,11 +13,10 @@ class StoreSchema(BaseModel):
     StateHoliday: str
     SchoolHoliday: int
 
-    
     @validator('DayOfWeek')
     def must_be_between_one_or_seven(cls, v):
         if v >= 7 and v <= 0:
-            raise ValueError(f'must be between 1 or 7')
+            raise ValueError('must be between 1 or 7')
         return v
 
     @validator('Date')
@@ -28,23 +27,21 @@ class StoreSchema(BaseModel):
                 year=int(date[0]), month=int(date[1]), day=int(date[2])
             ):
                 return v
-        except:
-            raise ValueError(f'must be YYYY-MM-DD')
-        
-
+        except Exception:
+            raise ValueError('must be YYYY-MM-DD')
 
     @validator('Open')
     def open_is_one_or_zero(cls, v):
         if v not in {1, 0}:
-            raise ValueError(f'must be either 1 or 0')
+            raise ValueError('must be either 1 or 0')
         return v
-    
+
     @validator('Promo')
     def promo_is_one_or_zero(cls, v):
         if v not in {1, 0}:
-            raise ValueError(f'must be either 1 or 0')
+            raise ValueError('must be either 1 or 0')
         return v
-    
+
     @validator('StateHoliday')
     def must_belong_to_state_holiday_category(cls, v):
         categories = {'0', 'a', 'b', 'c'}
@@ -53,9 +50,9 @@ class StoreSchema(BaseModel):
                 f'must belong to the following categories: {categories}'
             )
         return v
-        
+
     @validator('SchoolHoliday')
     def school_holiday_is_one_or_zero(cls, v):
         if v not in {1, 0}:
-            raise ValueError(f'must be either 1 or 0')
+            raise ValueError('must be either 1 or 0')
         return v

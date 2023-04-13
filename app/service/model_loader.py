@@ -1,4 +1,3 @@
-import os
 import glob
 import joblib
 
@@ -8,7 +7,7 @@ class ModelLoader:
         """Get latest model path"""
         try:
             return glob.glob("./model_store/sales_prediction*")[0]
-        except:
+        except Exception:
             FileNotFoundError("model does not exist")
 
     def get_latest_model(self) -> any:
