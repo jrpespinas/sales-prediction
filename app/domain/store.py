@@ -3,7 +3,7 @@ from datetime import datetime
 from pydantic import BaseModel, validator
 
 
-class StoreInput(BaseModel):
+class StoreSchema(BaseModel):
     Store: int
     DayOfWeek: int
     Date: str
