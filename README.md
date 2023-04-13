@@ -61,6 +61,10 @@ experiments
 └── utils
     └── services.py
 ```
+
+## Basic System Design
+<img src="screenshots/gcash-exam-workflow.drawio.png">
+
 ## Usage
 You may the application through heroku
 1. Inference endpoint: https://sales-prediction.herokuapp.com/predict
