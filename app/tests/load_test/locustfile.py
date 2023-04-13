@@ -2,6 +2,7 @@ import json
 from locust import HttpUser, task, between
 from app.domain.store import StoreSchema
 
+
 class PerformanceTests(HttpUser):
     wait_time = between(1, 3)
 
@@ -17,5 +18,12 @@ class PerformanceTests(HttpUser):
             StateHoliday="0",
             SchoolHoliday=1
         )
-        headers = {'Accept': 'application/json', 'Content-Type': 'application/json'}
-        self.client.post("predict", data=json.dumps(sample.dict()), headers=headers)
+        headers = {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+        self.client.post(
+            "predict",
+            data=json.dumps(sample.dict()),
+            headers=headers
+        )
