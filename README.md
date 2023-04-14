@@ -68,7 +68,12 @@ experiments
 ## Usage
 You may the application through heroku
 1. Inference endpoint: https://sales-prediction.herokuapp.com/predict
-2. API documentation endpoint: https://sales-prediction.herokuapp.com/docs
+
+```shell
+curl -d '{"Store":1111,"DayOfWeek":4,"Date":"2014-07-10","Customers":410,"Open":1,"Promo":0,"StateHoliday":"0","SchoolHoliday":1}' -H "Content-Type: application/json" -X POST https://sales-prediction.herokuapp.com/predict 
+```
+
+3. API documentation endpoint: https://sales-prediction.herokuapp.com/docs
 
 ## References
 - [Deploying Docker Image to Heroku using Github Action](https://blog.devgenius.io/how-to-deploy-to-kubernetes-heroku-using-docker-c2556a9584df)
