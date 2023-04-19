@@ -7,6 +7,7 @@ from ..domain.store import StoreSchema
 class StorePreprocessor:
     def __init__(self):
         self.store_df = self.__get_store_details()
+        self.scaler = self.__initialize_scaler()
 
     def __get_store_details(self):
         """Read store details into a DataFrame"""
@@ -18,6 +19,14 @@ class StorePreprocessor:
         df = pd.read_csv("data_store/x_train_unscaled.csv")
         df = df.drop(df.columns[0], axis=1)
         return df
+
+    def __initialize_scaler(self):
+        """initialize standard scaler"""
+        x_train_unscaled = self.__get_unscaled_training_data()
+
+        scaler = StandardScaler()
+        scaler.fit_transform(x_train_unscaled)
+        return scaler
 
     def __merge_data(self, store: StoreSchema):
         """Merge input data to store details"""
@@ -110,12 +119,7 @@ class StorePreprocessor:
 
     def __scale_input(self, df):
         """Scale input based on training data"""
-        x_train_unscaled = self.__get_unscaled_training_data()
-
-        scaler = StandardScaler()
-        scaler.fit_transform(x_train_unscaled)
-
-        df = pd.DataFrame(scaler.transform(df), columns=df.columns)
+        df = pd.DataFrame(self.scaler.transform(df), columns=df.columns)
         return df
 
     async def convert(self, store: StoreSchema):
