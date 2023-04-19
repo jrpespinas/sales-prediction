@@ -19,7 +19,7 @@ class StorePreprocessor:
         df = pd.read_csv("data_store/x_train_unscaled.csv")
         df = df.drop(df.columns[0], axis=1)
         return df
-    
+
     def __initialize_scaler(self):
         """initialize standard scaler"""
         x_train_unscaled = self.__get_unscaled_training_data()
